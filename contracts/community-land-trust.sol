@@ -19,37 +19,37 @@
 pragma solidity ^0.8.19;
 
 
+// ============================================================================
+// Contracts
+// ============================================================================
+
+/**
+ * Community Land Trust Contract
+ * @dev 
+ */
 contract CommunityLandTrust {
-    struct LandParcel {
-        uint id;
-        address owner;
-    }
+
+
+    // Parameters
+    // ========================================================================
 
     address public owner;
     uint public totalLand;
     uint public landPrice;
     uint public nextLandParcelId = 0;
 
-    mapping(uint => LandParcel) public landParcels;
-    mapping(address => uint[]) public landOwners;
-    mapping(address => bool) public trustees;
 
-    event Purchase(address indexed _buyer, uint _parcelId);
-    event Sale(address indexed _seller, uint _parcelId);
-    event Transfer(address indexed _from, address indexed _to, uint _parcelId);
-    event PriceChanged(uint _newPrice);
-    event TrusteeAdded(address _trustee);
-    event TrusteeRemoved(address _trustee);
+    // Structs
+    // ========================================================================
 
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can execute this operation");
-        _;
+    struct LandParcel {
+        uint id;
+        address owner;
     }
 
-    modifier onlyTrustees() {
-        require(trustees[msg.sender] == true, "Only trustee can execute this operation");
-        _;
-    }
+
+    // Constructor
+    // ========================================================================
 
     constructor(uint _totalLand, uint _landPrice) {
         owner = msg.sender;
@@ -62,6 +62,41 @@ contract CommunityLandTrust {
             nextLandParcelId++;
         }
     }
+
+    // Mappings
+    // ========================================================================
+
+    mapping(uint => LandParcel) public landParcels;
+    mapping(address => uint[]) public landOwners;
+    mapping(address => bool) public trustees;
+
+
+    // Events
+    // ========================================================================
+
+    event Purchase(address indexed _buyer, uint _parcelId);
+    event Sale(address indexed _seller, uint _parcelId);
+    event Transfer(address indexed _from, address indexed _to, uint _parcelId);
+    event PriceChanged(uint _newPrice);
+    event TrusteeAdded(address _trustee);
+    event TrusteeRemoved(address _trustee);
+
+
+    // Modifiers
+    // ========================================================================
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can execute this operation");
+        _;
+    }
+
+    modifier onlyTrustees() {
+        require(trustees[msg.sender] == true, "Only trustee can execute this operation");
+        _;
+    }
+
+    // Methods
+    // ========================================================================
 
     function purchaseLand() public payable {
         require(totalLand > 0, "No land available for purchase");
@@ -118,4 +153,5 @@ contract CommunityLandTrust {
     function withdraw() public onlyOwner {
         payable(owner).transfer(address(this).balance);
     }
+
 }
