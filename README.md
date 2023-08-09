@@ -18,8 +18,14 @@
 
 ### Contents
 
-- [Introduction](#introduction)
-- [Colophon](#colophon)
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Quick start](#quick-start)
+4. [Setup and Installation](#setup-and-installation)
+5. [Usage](#usage)
+6. [Contribution](#contribution)
+7. [License](#license)
+7. [Colophon](#colophon)
 
 <br clear="both"/>
 
@@ -35,6 +41,8 @@
 
 </div>
 
+**The `CommunityLandTrust` smart contract facilitates the management and operations of land parcels within a decentralized land trust community. It allows users to buy and sell land parcels, transfer ownership, and provides an administrative interface for trustees and the contract owner.**
+
 ## Introduction
 
 In this community land trust smart contract, we explore a sophisticated example of land management on the Ethereum blockchain. The CLT contract encapsulates multiple unique aspects of a trust, including land as unique parcels rather than indistinguishable units, trustees who have special privileges, dynamic pricing, and operations like land purchase, sale, and transfer among users.
@@ -48,6 +56,28 @@ Users can buy available land parcels from the trust. When a land parcel is purch
 While this contract offers a robust and realistic representation of a community land trust, it serves as a starting point and should be customized according to the specific needs of the trust. As with any blockchain contract, it is critical to thoroughly test and audit the contract code before deploying it on the mainnet.
 
 In summary, the Community Land Trust contract provides a sophisticated example of using Ethereum for managing real-world assets and transactions, demonstrating the immense potential of blockchain technology in revolutionizing how we handle and exchange value.
+
+## Features
+
+- **Purchase Land**: Users can purchase available land parcels by sending the specified Ether amount.
+- **Sell Land**: Landowners can sell their parcels back to the trust.
+- **Transfer Ownership**: Landowners can transfer their land parcels to another Ethereum address.
+- **Admin Functions**: The contract owner and trustees have special permissions:
+  - Set the price of land parcels.
+  - Add or remove trustees.
+  - Withdraw contract balance.
+
+### Functions
+
+This contract includes:
+
+- `LandParcel`: A struct that represents a unique land parcel with an ID and owner.
+- `landParcels`: A mapping from a land parcel ID to the LandParcel struct.
+- `landOwners`: A mapping from an address to an array of land parcel IDs owned by that address.
+- `purchaseLand`: A function for buying land parcels from the trust.
+- `sellLand`: A function for selling land parcels back to the trust.
+- `transferLand`: A function for transferring ownership of a land parcel to another user.
+- `getLandParcels`: A function that returns all land parcel IDs owned by a user.
 
 ## Quick Start
 
@@ -63,19 +93,128 @@ npm i
 npm run compile
 ```
 
-## Contract
+## Setup and Installation
 
-This contract includes:
+### Prerequisites
 
-- `LandParcel`: A struct that represents a unique land parcel with an ID and owner.
-- `landParcels`: A mapping from a land parcel ID to the LandParcel struct.
-- `landOwners`: A mapping from an address to an array of land parcel IDs owned by that address.
-- `purchaseLand`: A function for buying land parcels from the trust.
-- `sellLand`: A function for selling land parcels back to the trust.
-- `transferLand`: A function for transferring ownership of a land parcel to another user.
-- `getLandParcels`: A function that returns all land parcel IDs owned by a user.
+- [Node.js](https://nodejs.org/)
+- [Truffle Framework](https://www.trufflesuite.com/)
+- [MetaMask](https://metamask.io/) or similar Ethereum web3 provider
 
-## Development Resources
+### Steps
+
+1. Clone this repository:
+
+   ```bash
+   git clone [Repository Link]
+   ```
+
+2. Change into the directory:
+
+   ```bash
+   cd CommunityLandTrustContract
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Compile the contract:
+
+   ```bash
+   truffle compile
+   ```
+
+5. Deploy the contract to a local Ethereum network using Truffle:
+
+   ```bash
+   truffle migrate --reset
+   ```
+
+Of course! Here's an expanded "Usage" section for the `README.md` detailing more function calls:
+
+---
+
+## Usage
+
+1. **Buying Land**:
+
+   ``` javascript
+   contractInstance.purchaseLand({value: etherAmount});
+   ```
+
+2. **Selling Land**:
+
+   ``` javascript
+   contractInstance.sellLand(parcelId);
+   ```
+
+3. **Transferring Land**:
+
+   ``` javascript
+   contractInstance.transferLand(parcelId, recipientAddress);
+   ```
+
+4. **Setting Land Price (Trustees only)**:
+
+   ``` javascript
+   contractInstance.setLandPrice(newPrice);
+   ```
+
+5. **Fetching Land Parcels Owned by an Address**:
+
+   ``` javascript
+   let parcelsOwned = await contractInstance.getLandParcels(ownerAddress);
+   console.log("Land Parcels:", parcelsOwned);
+   ```
+
+6. **Adding a Trustee (Owner only)**:
+
+   ``` javascript
+   contractInstance.addTrustee(newTrusteeAddress);
+   ```
+
+7. **Removing a Trustee (Owner only)**:
+
+   ``` javascript
+   contractInstance.removeTrustee(trusteeAddress);
+   ```
+
+8. **Withdrawing Contract Balance (Owner only)**:
+
+   ``` javascript
+   contractInstance.withdraw();
+   ```
+
+9. **Fetching Land Details by Parcel ID**:
+
+   ``` javascript
+   let landParcel = await contractInstance.landParcels(parcelId);
+   console.log("Land Owner:", landParcel.owner);
+   ```
+
+10. **Checking Trustee Status**:
+
+   ``` javascript
+   let isTrustee = await contractInstance.trustees(addressToCheck);
+   console.log("Is Trustee:", isTrustee);
+   ```
+
+---
+
+## Colophon
+
+### Authors
+
+This is an open-source project by the **[Block Foundation](https://www.blockfoundation.io "Block Foundation website")**.
+
+The Block Foundation mission is enabling architects to take back initiative and contribute in solving the mismatch in housing through blockchain technology. Therefore the Block Foundation seeks to unschackle the traditional constraints and construct middle ground between rent and the rigidity of traditional mortgages.
+
+website: [www.blockfoundation.io](https://www.blockfoundation.io "Block Foundation website")
+
+### Development Resources
 
 ### Other Repositories
 
@@ -92,21 +231,6 @@ This contract includes:
 | **Rent-to-Own**                   | [**>>>**](https://github.com/block-foundation/solidity-rent-to-own) | [**>>>**](https://github.com/block-foundation/teal-rent-to-own) |
 | **Self-Owning Building**          | [**>>>**](https://github.com/block-foundation/solidity-self-owning-building) | [**>>>**](https://github.com/block-foundation/teal-self-owning-building) |
 | **Smart Home**                    | [**>>>**](https://github.com/block-foundation/solidity-smart-home) | [**>>>**](https://github.com/block-foundation/teal-smart-home) |
-
-
----
-
-## Colophon
-
-### Authors
-
-This is an open-source project by the **[Block Foundation](https://www.blockfoundation.io "Block Foundation website")**.
-
-The Block Foundation mission is enabling architects to take back initiative and contribute in solving the mismatch in housing through blockchain technology. Therefore the Block Foundation seeks to unschackle the traditional constraints and construct middle ground between rent and the rigidity of traditional mortgages.
-
-website: [www.blockfoundation.io](https://www.blockfoundation.io "Block Foundation website")
-
-### Development Resources
 
 #### Contributing
 
