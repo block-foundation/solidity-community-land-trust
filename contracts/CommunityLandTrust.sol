@@ -58,11 +58,12 @@ contract CommunityLandTrust {
     // Structs
     // ========================================================================
 
-    /** @notice Represents a unique land parcel.
-      * @dev Each land parcel has a unique ID and an owner address.
-      * @param id Unique identifier for the land parcel.
-      * @param owner Address of the current owner of the land parcel.
-      */
+    /** 
+     *  @notice Represents a unique land parcel.
+     *  @dev Each land parcel has a unique ID and an owner address.
+     *  @param id Unique identifier for the land parcel.
+     *  @param owner Address of the current owner of the land parcel.
+     */
     struct LandParcel {
         uint id;
         address owner;
@@ -245,9 +246,9 @@ contract CommunityLandTrust {
     }
 
     /**
-     * @notice Allows the contract owner to add a new trustee.
-     * @dev The specified address is marked as a trustee and an event is emitted.
-     * @param _newTrustee The address to be added as a trustee.
+     *  @notice Allows the contract owner to add a new trustee.
+     *  @dev The specified address is marked as a trustee and an event is emitted.
+     *  @param _newTrustee The address to be added as a trustee.
      */
     function addTrustee(address _newTrustee) public onlyOwner {
         trustees[_newTrustee] = true;
